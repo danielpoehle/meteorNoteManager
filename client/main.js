@@ -1,11 +1,18 @@
 import { Template } from 'meteor/templating';
 import { Notes } from '../lib/collections.js';
+import { Accounts } from 'meteor/accounts-base';
+
+// Accounts config
+Accounts.ui.config({
+  passwordSignupFields: 'USERNAME_ONLY'
+});
 
 import './main.html';
 
 Template.body.helpers({
   notes(){
-    return Notes.find({});
+    n = Notes.find({});
+    return n;
   }
 });
 
@@ -23,11 +30,15 @@ Template.add.events({
     const target = event.target;
     const textValue = target.newNote.value;
 
+    timestamp = new Date();
+
     //Insert Note into collection
     Notes.insert({
       text: textValue,
-      createdAt: new Date(),
-      user: 01
+      createdAt: timestamp,
+      niceTime: timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString(),
+      user: Meteor.user().username,
+      owner: Meteor.userId()
     });
 
     //Clear the form

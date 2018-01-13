@@ -12,17 +12,17 @@
         <i class="material-icons">menu</i>
       </a>
       <ul class="right hide-on-med-and-down">
+        {{#if currentUser}}
         <li class="nav-item">
           <a class="waves-effect waves-light btn modal-trigger #01579b light-blue darken-4" href="#addNote">
             <i class="small material-icons left">add</i>
             Add Note
           </a>
         </li>
+        {{/if}}
         <li class="nav-item">
-          <a class="waves-effect waves-light btn modal-trigger #01579b light-blue darken-4" href="#login">
-            <i class="small material-icons left">person_outline</i>
-            Login
-          </a>
+          <i class="small material-icons left">person_outline</i>
+          {{> loginButtons align="right"}}
         </li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
@@ -33,11 +33,15 @@
 
   <div class="container">
     <h1>Latest Notes</h1>
+    {{#if currentUser}}
     <ul class="collection">
       {{#each notes}}
         {{> note}}
       {{/each}}
     </ul>
+    {{else}}
+    <p>Please log in to edit your notes!</p>
+    {{/if}}
   </div>
 
   {{> add}}
@@ -54,6 +58,7 @@
   <li class="collection-item">
     <i class="small material-icons left">check_box_outline_blank</i>
     {{text}}
+    <strong><small>by {{user}} at {{niceTime}}</small></strong> 
     <a href="#" class="delete-note">
       <i class="small material-icons right">delete</i>
     </a>
