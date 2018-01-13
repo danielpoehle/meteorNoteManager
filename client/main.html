@@ -1,7 +1,83 @@
 <head>
+  <meta charset="UTF-8">
   <title>Note Manager</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <nav class="#0288d1 light-blue darken-2">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Note Manager <i class="large material-icons right">assignment</i></a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="right hide-on-med-and-down">
+        <li class="nav-item">
+          <a class="waves-effect waves-light btn modal-trigger #01579b light-blue darken-4" href="#addNote">
+            <i class="small material-icons left">add</i>
+            Add Note
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="waves-effect waves-light btn modal-trigger #01579b light-blue darken-4" href="#login">
+            <i class="small material-icons left">person_outline</i>
+            Login
+          </a>
+        </li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li>Login</li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1>Latest Notes</h1>
+    <ul class="collection">
+      {{#each notes}}
+        {{> note}}
+      {{/each}}
+    </ul>
+  </div>
+
+  {{> add}}
+
+  <script>
+    $(document).ready(function(){
+      $('.modal').modal();
+    });
+  </script>
+
 </body>
+
+<template name="note">
+  <li class="collection-item">
+    <i class="small material-icons left">check_box_outline_blank</i>
+    {{text}}
+    <a href="#" class="delete-note">
+      <i class="small material-icons right">delete</i>
+    </a>
+  </li>
+</template>
+
+<template name="add">
+  <div id="addNote" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4>Add a new Note</h4>
+      <div class="row">
+        <form class="col s12 add-form">
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">note_add</i>
+              <input id="newnote" name="newNote" type="text" placeholder="Enter your new note...">
+              <label for="newnote">Note</label>
+            </div>
+            <button class="btn waves-effect waves-light add-form #0288d1 light-blue darken-2" type="submit" name="action">
+              Add
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</template>
