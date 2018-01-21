@@ -21,6 +21,9 @@
         </li>
         {{/if}}
         <li class="nav-item">
+          {{#if currentUser}}
+          Welcome
+          {{/if}}
           <i class="small material-icons left">person_outline</i>
           {{> loginButtons align="right"}}
         </li>
@@ -55,10 +58,23 @@
 </body>
 
 <template name="note">
-  <li class="collection-item">
+  <li class="collection-item {{#if private}}private{{/if}}">
     <i class="small material-icons left">check_box_outline_blank</i>
     {{text}}
-    <strong><small>by {{user}} at {{niceTime}}</small></strong> 
+    <strong><small>by {{user}} at {{niceTime}}</small></strong>
+
+    {{#if isOwner}}
+      {{#if private}}
+      <a href="#" class="toggle-private">
+        <i class="small material-icons right">visibility_off</i>
+      </a>
+      {{else}}
+      <a href="#" class="toggle-public">
+        <i class="small material-icons right">visibility</i>
+      </a>
+      {{/if}}
+    {{/if}}
+
     <a href="#" class="delete-note">
       <i class="small material-icons right">delete</i>
     </a>

@@ -9,6 +9,10 @@ Accounts.ui.config({
 
 import './main.html';
 
+Template.body.onCreated(function bodyOnCreated() {
+  Meteor.subscribe('notes');
+});
+
 Template.body.helpers({
   notes(){
     n = Notes.find({});
@@ -18,9 +22,23 @@ Template.body.helpers({
 
 Template.note.events({
   'click .delete-note': function(){
-    Notes.remove(this._id);
+    Meteor.call('notes.remove', this._id);
+  },
+  'click .toggle-private': function() {
+    //console.log("set private true");
+    Meteor.call('notes.setPrivate', this._id, !this.private);
+  },
+  'click .toggle-public': function() {
+    //console.log('set private false');
+    Meteor.call('notes.setPrivate', this._id, !this.private);
   }
 });
+
+Template.note.helpers({
+  isOwner() {
+    return this.owner === Meteor.userId();
+  }
+})
 
 Template.add.events({
   'submit .add-form': function(event, template){
@@ -30,16 +48,10 @@ Template.add.events({
     const target = event.target;
     const textValue = target.newNote.value;
 
-    timestamp = new Date();
+
 
     //Insert Note into collection
-    Notes.insert({
-      text: textValue,
-      createdAt: timestamp,
-      niceTime: timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString(),
-      user: Meteor.user().username,
-      owner: Meteor.userId()
-    });
+    Meteor.call('notes.insert', textValue);
 
     //Clear the form
     target.newNote.value = "";
