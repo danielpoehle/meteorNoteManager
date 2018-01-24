@@ -31,6 +31,14 @@ Template.note.events({
   'click .toggle-public': function() {
     //console.log('set private false');
     Meteor.call('notes.setPrivate', this._id, !this.private);
+  },
+  'click .toggle-checked': function() {
+    //console.log("set checked false");
+    Meteor.call('notes.setChecked', this._id, !this.checked);
+  },
+  'click .toggle-unchecked': function() {
+    //console.log("set checked true");
+    Meteor.call('notes.setChecked', this._id, !this.checked);
   }
 });
 

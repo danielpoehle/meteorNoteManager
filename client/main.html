@@ -59,11 +59,22 @@
 
 <template name="note">
   <li class="collection-item {{#if private}}private{{/if}}">
-    <i class="small material-icons left">check_box_outline_blank</i>
+    {{#if checked}}
+    <a href="#" class="toggle-checked">
+      <i class="small material-icons left">check_box</i>
+    </a>
+    {{else}}
+    <a href="#" class="toggle-unchecked">
+      <i class="small material-icons left">check_box_outline_blank</i>
+    </a>
+    {{/if}}
     {{text}}
     <strong><small>by {{user}} at {{niceTime}}</small></strong>
 
     {{#if isOwner}}
+      <a href="#" class="delete-note">
+        <i class="small material-icons right">delete</i>
+      </a>
       {{#if private}}
       <a href="#" class="toggle-private">
         <i class="small material-icons right">visibility_off</i>
@@ -74,10 +85,6 @@
       </a>
       {{/if}}
     {{/if}}
-
-    <a href="#" class="delete-note">
-      <i class="small material-icons right">delete</i>
-    </a>
   </li>
 </template>
 
